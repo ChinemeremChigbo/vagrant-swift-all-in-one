@@ -165,6 +165,13 @@ Vagrant.configure("2") do |global_config|
           "arch" => if vagrant_box.include? "m1" then "arm64" else "amd64" end,
         }
         chef.json.merge! local_config
+        if chef.json['use_python3'] then
+          chef.json['default_pip'] = 'pip3'
+          chef.json['default_python'] = 'python3'
+        else
+          chef.json['default_pip'] = 'pip2'
+          chef.json['default_python'] = 'python2'
+        end
         if chef.json['ssl'] then
           chef.json['base_uri'] = "https://#{hostname}"
         else

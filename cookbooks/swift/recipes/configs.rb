@@ -33,6 +33,10 @@ when 'ubuntu'
       action :run
     end
   end
+when 'centos'
+  cookbook_file "/etc/sysconfig/memcached" do
+    source "etc/sysconfig/memcached"
+  end
 end
 # per device rsync modules
 
@@ -118,11 +122,6 @@ execute "create cert" do
     "-out saio.crt -config saio.conf"
   cwd "/etc/ssl/private/"
   creates "#{node['saio_crt_path']}"
-end
-
-default_python = 'python2'
-if node['use_python3']
-  default_python = 'python3'
 end
 
 execute "install cert" do
