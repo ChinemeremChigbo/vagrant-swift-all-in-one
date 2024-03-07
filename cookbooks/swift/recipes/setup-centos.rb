@@ -15,7 +15,7 @@ required_packages = [
   "openssl-devel", # libssl-dev is required for building wheels from the cryptography package in swift.
   "curl", "gcc", "memcached", "rsync", "sqlite", "xfsprogs", "git-core",
   "libffi-devel",  "libxml2-devel", "libxml2", "libxslt-devel", "zlib-devel", "autoconf", "libtool",
-  "haproxy", "python3", "python3-devel", "ipython", "podman-compose",
+  "haproxy", "python3", "python3-devel", "ipython",
 ]
 
 if node['platform_version'] >= 8
@@ -23,12 +23,13 @@ if node['platform_version'] >= 8
     "rsync-daemon",
     "python2", "python2-devel",
     "python38", "python38-devel",
-    "python39", "python39-devel"
+    "python39", "python39-devel", "podman-compose",
+    # "java-latest-openjdk",
   ]
 else
   # java-latest-openjdk seems to be broken on centos 8 atm
   required_packages += [
-    "python", "python-devel", "java-latest-openjdk",
+    "python", "python-devel", "java-11-openjdk", "docker-compose"
   ]
 end
 
