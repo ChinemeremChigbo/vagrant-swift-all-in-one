@@ -106,7 +106,7 @@ execute "create key" do
   #  "-pkeyopt rsa_keygen_bits:2048"
   cwd "/etc/ssl/private/"
   creates "/etc/ssl/private/saio.key"
-  default_env true
+#  default_env true
 end
 
 template "/etc/ssl/private/saio.conf" do
@@ -126,15 +126,14 @@ end
 
 execute "install cert" do
   command "mkdir -p /usr/local/share/ca-certificates/extra && " \
-    "cp #{cert_to_install} /usr/local/share/ca-certificates/extra/saio_ca.crt && " \
-    "#{update_ca_certs} && " \
-    "cat #{cert_to_install} >> $(#{node['default_python']} -m certifi)"
+    "cp #{node['saio_crt_path']} /usr/local/share/ca-certificates/extra/saio_ca.crt && " \
+    "#{update_ca_certs}"
   creates "/usr/local/share/ca-certificates/extra/saio_ca.crt"
   default_env true
 end
 
 execute "fix certifi" do
-  command "cat #{node['saio_crt_path']} >> $(python -m certifi)"
+  command "cat #{node['saio_crt_path']} >> $(#{node['default_python']} -m certifi)"
 end
 
 execute "create pem" do

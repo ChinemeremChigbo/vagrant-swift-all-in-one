@@ -116,7 +116,7 @@ end
 # yes, we this file exists even if you have node['ssl'] == false
 execute "fix certifi" do
   only_if { ::File.exist?(node['saio_crt_path']) }
-  command "cat #{node['saio_crt_path']} >> $(python -m certifi)"
+  command "cat #{node['saio_crt_path']} >> $(#{node['default_python']} -m certifi)"
 end
 
 execute "swift-bench-install" do
