@@ -82,14 +82,6 @@ execute "disable-selinux-at-boot" do
   action :run
 end
 
-if node['platform_version'] >= 8
-  execute "enable ipv6" do
-    command "sed -i 's/net.ipv6.conf.all.disable_ipv6 = 1/net.ipv6.conf.all.disable_ipv6 = 0/' /etc/sysctl.d/99-sysctl.conf"
-    not_if "grep 'net.ipv6.conf.all.disable_ipv6 = 0' /etc/sysctl.d/99-sysctl.conf"
-    action :run
-  end
-end
-
 execute "source-profile" do
   command "echo 'source ~/.profile' >> ~#{node['username']}/.bashrc"
   not_if "grep 'source ~/.profile' ~#{node['username']}/.bashrc"
